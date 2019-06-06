@@ -1,5 +1,5 @@
 # nbconvert hide code button
-nbconvert template to add toggle button to hide / display code cells
+[Jupyter Book](https://jupyter.org/jupyter-book/)-inspired nbconvert template to add toggle button to hide / display code cells. See subsection _Hiding code blocks or entire cells_.
 
 To use the template, run:
 ```
