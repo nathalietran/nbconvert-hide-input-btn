@@ -55,8 +55,63 @@ input:checked ~ .hideme span.view-cell {
     -o-transform: rotate(-90deg);
     -ms-transform: rotate(-90deg);
 }
+
+.codecell {
+  width: 100%;
+}
 </style>
+
+<script type="text/javascript">
+  var setCodeCellVisibility = function (inputField, kind) {
+      var id = inputField.getAttribute('data-id');
+      var codePrompt = document.querySelector(`#${id} div.input div.input_prompt`);
+      var codeCell = document.querySelector(`#${id} div.input div.inner_cell`);
+
+      if (kind === "visible") {
+          codeCell.classList.remove('hidden');
+          codePrompt.classList.remove('hidden');
+          inputField.checked = true;
+      } else {
+          codeCell.classList.add('hidden');
+          codePrompt.classList.add('hidden');
+          inputField.checked = false;
+      }
+  }
+
+  var toggleCodeCellVisibility = function (event) {
+      // The label is clicked, and now we decide what to do based on the input field's clicked status
+      if (event.target.tagName === "LABEL") {
+          var inputField = event.target.previousElementSibling;
+      } else {
+          // It is the span inside the target
+          var inputField = event.target.parentElement.previousElementSibling;
+      }
+
+      if (inputField.checked === true) {
+          setCodeCellVisibility(inputField, "visible");
+      } else {
+          setCodeCellVisibility(inputField, "hidden");
+      }
+  }
+
+  var addListener = function () {
+      document.querySelectorAll('div.codecell div.input input + label').forEach(function (item, index) {
+        item.addEventListener('click', toggleCodeCellVisibility);
+      });
+  }
+
+  document.addEventListener("DOMContentLoaded", function(event){
+    addListener();
+});
+
+</script>
 {%- endblock header -%}
+
+{% block input_group -%}
+<div id="code-{{ cell.execution_count }}" class="codecell">
+  {{ super() }}
+</div>
+{% endblock input_group %}
 
 {% block input -%}
 {{ super() }}
@@ -67,4 +122,4 @@ input:checked ~ .hideme span.view-cell {
   <span class="view-cell"></span>
 </label>
 {% endif %}
-{% endblock input %}
+{% endblock input -%}
