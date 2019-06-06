@@ -69,11 +69,15 @@ input:checked ~ .hideme span.view-cell {
 
       if (kind === "visible") {
           codeCell.classList.remove('hidden');
-          codePrompt.classList.remove('hidden');
+          if (codePrompt != null) {
+            codePrompt.classList.remove('hidden');
+          }
           inputField.checked = true;
       } else {
           codeCell.classList.add('hidden');
-          codePrompt.classList.add('hidden');
+          if (codePrompt != null) {
+            codePrompt.classList.add('hidden');
+          }
           inputField.checked = false;
       }
   }
@@ -100,7 +104,22 @@ input:checked ~ .hideme span.view-cell {
       });
   }
 
+  var initCells = function () {
+    var codeCells = document.getElementsByClassName('input');
+    for (var i = 0; i < codeCells.length; ++i) {
+      var item = codeCells[i];
+      if (item.childElementCount > 1) {
+        // inner_cell + input_prompt
+        item.children[0].classList.add('hidden');
+        if (item.childElementCount > 3) {
+          item.children[1].classList.add('hidden');
+        }
+      }
+    }
+  }
+
   document.addEventListener("DOMContentLoaded", function(event){
+    initCells();
     addListener();
 });
 
