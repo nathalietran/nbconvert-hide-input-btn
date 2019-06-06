@@ -134,7 +134,7 @@ input:checked ~ .hideme span.view-cell {
 
 {% block input -%}
 {{ super() }}
-{% if 'hidecode' in cell['metadata'].get('tags', []) %}
+{% if 'hidecode' in cell['metadata'].get('tags', []) and cell.execution_count is not none %}
 <input class="hidebtn" type="checkbox" checked id="cell-{{ cell.execution_count }}" data-id="code-{{ cell.execution_count }}">
 <label title="Toggle cell" for="cell-{{ cell.execution_count }}" class="hideme">
   <span class="hide-cell"></span>
